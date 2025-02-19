@@ -13,6 +13,25 @@ def char_count(text):
 
     return chars
 
+def report(chars, word_count, path_to_file):
+    print(f"\n--- Begin report of {path_to_file} ---")
+    print(f"{word_count} words found in the document\n")
+    
+    char_list = []  # # Tworzymy pustą listę słowników tylko dla liter alfabetu
+
+    for char, count in chars.items(): # Pętla po każdym elemencie w słowniku chars
+        if char.isalpha():   # Sprawdzamy, czy znak 'char' jest literą alfabetu
+            char_list.append({"char": char, "num": count}) # Jeśli tak, dodajemy słownik do char_list
+    
+    
+    char_list.sort(reverse=True, key=lambda d: d["num"]) # Sortujemy listę malejąco według liczby wystąpień
+
+    
+    for item in char_list:
+        print(f"The '{item['char']}' character was found {item['num']} times") # Drukujemy wyniki w odpowiednim formacie
+
+    print("--- End report ---\n")
+    
 
 def main():
     path_to_file = "books/frankenstein.txt"
@@ -21,13 +40,9 @@ def main():
         file_contents = f.read()
     
     word_count = count_words(file_contents)  # Liczymy słowa
-    print(f"\nLiczba słów w książce: {word_count}")
-    
-    char_counts = char_count(file_contents)
-    print("\nLiczba wystąpień poszczególnych znaków:")
-    print(char_counts)  # Wypisujemy słownik znaków
+    char_counts = char_count(file_contents)  # Liczymy znaki
 
- 
+    report(char_counts, word_count, path_to_file)
 
 
 main()
